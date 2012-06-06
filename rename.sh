@@ -7,18 +7,15 @@ begin=$1
 end=$2
 # 把所有大写转成小写
 rename .JPG .jpg *.JPG
-#for small in `seq $begin $end`;do 
-#	#echo $small;
-#	if [ -f $small.JPG ];then 
-#	mv $small.JPG $small.jpg 
-#	fi
-#done
-# md5sum will be in next ver
+# tr also
 if [ $# == 2 -a $1 -lt $2 -a -f $1.jpg -a -f $2.jpg ];then {
 	sum=`expr $end + $begin`
 	pages=`expr $end - $begin + 1`
 	mid=`expr $sum / 2`
 	echo -e "第 $begin 页到第 $end 页反转命名,共 $pages 页\n"
+	for small in `seq $begin $end`;do 
+		md5sum $small$ext>>before.txt
+	done
 
 	for small in `seq $begin $end`;do 
 		big=`expr $sum - $small`
@@ -37,12 +34,14 @@ if [ $# == 2 -a $1 -lt $2 -a -f $1.jpg -a -f $2.jpg ];then {
 		}
 		fi
 	done
-#	md5sum *.jpg >big.txt
-#	sed -i "s/ .*//g" small.txt big.txt
-#	tac big.txt>mid.txt
-#	cat mid.txt >big.txt
-#	rm mid.txt old.txt new.txt -f 
-#	diff small.txt big.txt && echo "重命名成功"
+	for small in `seq $begin $end`;do 
+		md5sum $small$ext>>after.txt
+	done
+	sed -i "s/ .*//g" before.txt after.txt
+	tac big.txt>mid.txt
+	cat mid.txt >after.txt
+	rm mid.txt before.txt after.txt -f 
+	diff before.txt after.txt && echo "重命名成功"
 }
 else 
 	echo -e "使用方法:\n
