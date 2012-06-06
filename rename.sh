@@ -1,41 +1,48 @@
 #/bin/bash
-unset old
-unset new
+# by Daniel Chow
+unset small
+unset big
 ext=.jpg
-# 当全部图片要改名时才能使用这样的MD5计算
-if [ $# == 2 -a $1 -lt $2 ];then {
-	begin=$1
-	end=$2
+begin=$1
+end=$2
+# 把所有大写转成小写
+rename .JPG .jpg *.JPG
+#for small in `seq $begin $end`;do 
+#	#echo $small;
+#	if [ -f $small.JPG ];then 
+#	mv $small.JPG $small.jpg 
+#	fi
+#done
+# md5sum will be in next ver
+if [ $# == 2 -a $1 -lt $2 -a -f $1.jpg -a -f $2.jpg ];then {
 	sum=`expr $end + $begin`
 	pages=`expr $end - $begin + 1`
 	mid=`expr $sum / 2`
 	echo -e "第 $begin 页到第 $end 页反转命名,共 $pages 页\n"
 
-	for old in `seq $begin $end`;do 
-		#echo $old;
-		new=`expr $sum - $old`
-		#echo $new
-		if [ $old -le $mid -a $old -ne $new ];then {
-			echo $old' -->' $new 
-			echo $new' -->' $old
-			mv $new$ext var$ext 
-			mv $old$ext $new$ext 
-			mv var$ext $old$ext 
+	for small in `seq $begin $end`;do 
+		big=`expr $sum - $small`
+		#echo $big
+		if [ $small -le $mid -a $small -ne $big ];then {
+			mv $big$ext var$ext 
+			echo $small' -->' $big 
+			mv $small$ext $big$ext 
+			echo $big' -->' $small
+			mv var$ext $small$ext
 		}
 		else { 
-			if [ $old == $new ];then
-			echo -e "$old is in the middle, no need to rename"
+			if [ $small == $big ];then
+			echo -e "$small is in the middle, no need to rename"
 			fi
 		}
 		fi
-		#md5sum $begin.jpg >>old.txt
 	done
-#	md5sum *.jpg >new.txt
-#	sed -i "s/ .*//g" old.txt new.txt
-#	tac new.txt>mid.txt
-#	cat mid.txt >new.txt
-#	rm mid.txt -f
-#	diff old.txt new.txt && echo "重命名成功"
+#	md5sum *.jpg >big.txt
+#	sed -i "s/ .*//g" small.txt big.txt
+#	tac big.txt>mid.txt
+#	cat mid.txt >big.txt
+#	rm mid.txt old.txt new.txt -f 
+#	diff small.txt big.txt && echo "重命名成功"
 }
 else 
 	echo -e "使用方法:\n
