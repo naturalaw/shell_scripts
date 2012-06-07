@@ -5,14 +5,12 @@
 # v5 2012年06月 3日 星期日 14:08:05
 # v7 2012年06月 5日 星期二  1:50:51
 # v8 2012年 06月 06日 星期三 03:15:09 CST
-#
-# chah 测绘案号
+# 这是为cygwin写的。当然linux实机环境也是可行的，只要修改一下路径，照样用。
+
 # 一次处理 n个大图
 # 具体使用时，要重新定义bak_path（即备份路径）和disk_x（x盘,源目录） 
 # /cygdrive/a 这里的字母a表示a盘,同样地/cygdrive/a 字母b表示b盘
 
-#bak_path=/cygdrive/b
-#disk_x=/cygdrive/a
 bak_path=/cygdrive/d/kingston/disk_b
 disk_x=/cygdrive/d/kingston/disk_a
 rate=60
