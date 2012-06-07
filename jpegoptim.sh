@@ -24,7 +24,7 @@ if [ $# -eq 1 ];then {
 			[ ! -d $bak_path/$chah ] && mkdir -v $bak_path/$chah;  	
 			for large_img in `find -iname "*.jpg" -size +6M -type f`;do {
 				bak_img=$chah/${large_img##*/} 
-				[ -f $bak_path/$bak_img ] || ( cp $large_img $bak_path/$chah -v && jpegoptim --max=60 $large_img >>$bak_path/jpegoptim.log && echo $chah >>$bak_path/optimed_chah.log && value=1 );
+				[ -f $bak_path/$bak_img ] || ( cp $large_img $bak_path/$chah -v && jpegoptim --max=60 $large_img >>$bak_path/jpegoptim.log && echo -e "$large_img\t$chah" >>$bak_path/optimed_chah.log && value=1 );
 			}
 			done; 
 #	}
